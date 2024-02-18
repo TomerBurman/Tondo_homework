@@ -4,6 +4,15 @@ pip install requests
 pip install beautifulsoup4
 pip install Pillow
 
+
+inputs for the GUI are entered like so : 
+Other movies: movie titles with comma seperating between movie names
+Genres: pick a genre or multiple genres you like
+Actors: enter names of actors, seperated with comma
+Directors: enter names of directors, seperated with comma
+
+Click search, it should display a list of movies  that are descending by rank of scores of how much they fit you users preference, you can click more details for more details on each movie.
+
 Functions description:
 fetch_image(url) - receives url of an image, sends a get request to scrape it,
 compresses the photo to 100 in width and 150 in height and returns ImageTk object
