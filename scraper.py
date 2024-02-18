@@ -1,4 +1,3 @@
-import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -103,7 +102,6 @@ def scrape_movie(movie):
         for row in row_tags:
             if hasattr(row, 'span') and row.find('span', text="Directors"):
                 director_links = row.find_all('a')
-                print(director_links)
                 directors = [link.text for link in director_links]
         #directors = [director.text for director in soup.select('div.ipc-metadata-list-item__content-container a')]
         #trailer_tag = soup.select_one('a.aria-labelWatch Blu-ray Version')

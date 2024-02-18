@@ -48,9 +48,7 @@ def calculate_score(movie_info, user_preferences):
             else:
                 print(f"'genres' key missing in movie: {movie.get('movie_title', 'Unknown')}")
             movie_title = [movie['movie_title'].lower().split('.')[1].strip()]
-            print(set(movie_title), set(user_preferences['favorite_movies']))
             score += len(set(movie_title) & set(user_preferences['favorite_movies'])) * 5 # giving highest weight to title
-            print(score)
             # Since actors are stored in tuples, and you're interested in the first element of each tuple
             movie_actor_names = [actor[0] for actor in movie.get('actors', [])]
             user_actor_names = user_preferences.get('actors', [])
@@ -58,7 +56,6 @@ def calculate_score(movie_info, user_preferences):
                 score += len(set(movie_actor_names) & set(user_actor_names)) * 1.1
             # Check if 'directors' key exists
             if 'directors' in movie:
-                print(len(set(movie['directors']) & set(user_preferences['directors'])))
                 score += len(set(movie['directors']) & set(user_preferences['directors']))
             else:
                 print(f"'directors' key missing in movie: {movie.get('movie_title', 'Unknown')}")
@@ -79,14 +76,10 @@ def search():
     user_preferences['genres'] = [genre_listbox.get(i) for i in selected_indices]
     user_preferences['actors'] = [actor.strip() for actor in actors_entry.get().split(',')]
     user_preferences['directors'] = [director.strip() for director in directors_entry.get().split(',')]
-    #print(user_preferences["favorite_movies"],user_preferences['genres'], user_preferences['actors'], user_preferences['directors'])
     actor_ids = [get_actor_id(actor) for actor in user_preferences['actors'] if actor]
     director_ids = [get_actor_id(director) for director in user_preferences['directors'] if director]
     search_urls = build_search_url(user_preferences['favorite_movies'],user_preferences['genres'],actor_ids,director_ids)
-    print(user_preferences["favorite_movies"])
-    print(search_urls)
     movie_initial_info = [scrape_movie_initial_info(url) for sublist in search_urls.values() for url in sublist]
-    #print(movie_initial_info)
     (processed_movies, movies_dict) = scrape_movies(movie_initial_info)
     scores = calculate_score(movies_dict, user_preferences)
     results_window = Toplevel(root)
@@ -108,15 +101,13 @@ def search():
 
             build_movie_item(movie_id, movie_details, frame, current_row)
             current_row += 3 
-        #build_movie_item(movie,scores)
 
-        # Assuming you have a placeholder image or fetch from URL
 
 
 def build_movie_item(movie_id, movie_details, frame, current_row):
     img = fetch_image(movie_details['movie_img'])
     img_label = Button(frame, image=img, command=lambda: show_movie_details(movie_details))
-    img_label.image = img  # Keep a reference.
+    img_label.image = img 
     img_label.grid(row=current_row, column=0, sticky="ew", padx=10, pady=10)
 
     Label(frame, text=movie_details['movie_title']).grid(row=current_row, column=1, sticky='w')
